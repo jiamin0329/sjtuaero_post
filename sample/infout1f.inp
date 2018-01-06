@@ -1,0 +1,27 @@
+nentries 1
+#------------------------
+entry1 begin
+output coefficients
+ifdim 1
+nbcsel 4
+1
+8
+9
+10
+nplane 0
+xcen 0.0
+ycen 0.0
+zcen 0.0
+pref 0
+rref 1.389974e+000
+uref 60.06006
+lxref 0.45
+lyref 0.45
+lzref 0.45
+axref 0.6075
+ayref 0.6075
+azref 0.6075
+alpha 10.0
+plane xy
+entry1 end
+#------------------------

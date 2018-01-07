@@ -16,6 +16,7 @@
 #  27-Aug-2017   Jiamin Xu     Initial creation
 #  28-Oct-2017   Jiamin Xu     Add Validate()
 #  06-Jan-2018   Jiamin Xu     Add symm plane type
+#  07-Jan-2018   Jiamin Xu     Add FindWing()
 #######################################################
 #            Import module
 #######################################################
@@ -84,6 +85,9 @@ class CFDppParser:
         # center of pressure
         self.xCenterOfPressure = 0.0
 
+        # boundary id of wing
+        self.idUpper = -1
+        self.idLower = -1
 
         pass
 
@@ -210,7 +214,13 @@ class CFDppParser:
     
     def GetCenterOfPressure(self):
         return self.moment[self.indexSide]/self.force_tol[self.indexLift]
-                                      
+
+    def GetWingBoundaryIds(self):
+        wings = []
+        wings.append(self.idUpper)
+        wings.append(self.idLower)
+        return wings
+
     ## main methods    
     def __Validate(self):
         '''Validate all dependency files'''
@@ -418,7 +428,24 @@ class CFDppParser:
             print(e)
             exit(1)
             
+        
+    def FindWing(self):
+        '''Find boundary id of wing'''
+        isWingUpperFound = False
+        isWingLowerFoudn = False
+        
+        inpFile = open(self.logFileName)
+        inpTexts = inpFile.readlines()
 
+        for i in range(len(inpTexts)):
+            if "WINGUPPER" in inpTexts[i]:
+                self.idUpper = int(inpTexts[i].split()[0])
+                isWingUpperFound = True
+            if "WINGLOWER" in inpTexts[i]:
+                self.idLower = int(inpTexts[i].split()[0])
+                isWingLowerFound = True
+
+        return isWingUpperFound and isWingLowerFound
         
 #######################################################
 #            Main Function
